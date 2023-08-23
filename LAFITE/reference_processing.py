@@ -83,7 +83,7 @@ class RefAnnotationExtraction:
 
 			if not iso_splicing:
 				# record single exon trans start and end site
-				chrand_ref_single_exon_trans.add((start,end))
+				chrand_ref_single_exon_trans.add((start,end,isoform))
 			else:
 				# record the splicing site, splicing junction, exon for multi exon trans
 				full_block = iter(full_block)
@@ -98,9 +98,9 @@ class RefAnnotationExtraction:
 
 				# record the splicing structure and the tss and tes for multi exon trans
 				if self.strand == '-':
-					se_site = [end, start]
+					se_site = [end, start,isoform]
 				else:
-					se_site = [start, end]
+					se_site = [start, end,isoform]
 				chrand_ref_mutple_exon_trans[tuple(iso_splicing)] = se_site
 
 		return chrand_ref_exon, chrand_ref_junction, chrand_ref_single_exon_trans, chrand_ref_mutple_exon_trans, chrand_left_sj_set, chrand_right_sj_set, chrand_tss_dict

@@ -28,6 +28,7 @@ class RawAttributeCollection:
 	rss_dis: int = None
 	res_dis: int = None
 	collapsed_ID: str = None
+	reference_id: str = None
 
 # %% ../03_collapsing.ipynb 4
 class ReadCorrectionColappse:
@@ -205,6 +206,7 @@ class ReadCorrectionColappse:
 			if corrected_read_splicing in self.chrand_ref_mutple_exon_trans:
 				raw_read_attribute.fsm = True
 				raw_read_attribute.rss_dis, raw_read_attribute.res_dis = self.RTS_refrence_distance(raw_read_attribute.start, raw_read_attribute.end, corrected_read_splicing)
+				raw_read_attribute.reference_id = self.chrand_ref_mutple_exon_trans[corrected_read_splicing][2]
 
 		return corrected_read_splicing, raw_read_attribute
 
@@ -218,18 +220,20 @@ class ReadCorrectionColappse:
 			if corrected_read_splicing not in multi_exon_read:
 				collapsed_idx += 1
 				raw_read_attribute.collapsed_ID = f'{self.chrom}_{prefix}.{collapsed_idx}'
-				multi_exon_read[corrected_read_splicing] = [[raw_read_attribute.start], [raw_read_attribute.end], [raw_read_attribute.polyaed], 1, raw_read_attribute.fsm, raw_read_attribute.collapsed_ID]
+				multi_exon_read[corrected_read_splicing] = [[raw_read_attribute.start], [raw_read_attribute.end], [raw_read_attribute.polyaed], 1, raw_read_attribute.fsm, raw_read_attribute.collapsed_ID, [raw_read_attribute.reference_id]]
 			else:
 				multi_exon_read[corrected_read_splicing][0].insert(0, raw_read_attribute.start)
 				multi_exon_read[corrected_read_splicing][1].insert(0, raw_read_attribute.end)
 				multi_exon_read[corrected_read_splicing][2].insert(0,raw_read_attribute.polyaed)
 				multi_exon_read[corrected_read_splicing][3] += 1
+    			
 				raw_read_attribute.collapsed_ID = multi_exon_read[corrected_read_splicing][5]
+				multi_exon_read[corrected_read_splicing][6].insert(0,raw_read_attribute.reference_id)
 
 		if raw_read_attribute.rss_dis:
 			rss_dis_lst.append(raw_read_attribute.rss_dis)
 			res_dis_lst.append(raw_read_attribute.res_dis)
-
+		# print(len(multi_exon_read[corrected_read_splicing]))
 		return multi_exon_read, rss_dis_lst, res_dis_lst, collapsed_idx, raw_read_attribute
 
 	def coco_operation (self, collapsed_idx = 0):
@@ -293,7 +297,8 @@ class CoCoWrapper:
 			chrand_left_sj_set = self.left_sj_set[branch]
 			chrand_right_sj_set = self.right_sj_set[branch]
 			chrand_junction_dict = self.junction_dict[branch]
-			job.append(ReadCorrectionColappse(chrom, strand, chrand_processed_read, chrand_ref_exon, chrand_ref_junction, chrand_ref_single_exon_trans, chrand_ref_mutple_exon_trans, chrand_left_sj_set, chrand_right_sj_set, chrand_junction_dict, self.sj_correction_window, self.mis_intron_length, self.polya_dict, self.corExcept_dis))
+			job.append(ReadCorrectionColappse(chrom, strand, chrand_processed_read, chrand_ref_exon, chrand_ref_junction, chrand_ref_single_exon_trans,
+                                     chrand_ref_mutple_exon_trans, chrand_left_sj_set, chrand_right_sj_set, chrand_junction_dict, self.sj_correction_window, self.mis_intron_length, self.polya_dict, self.corExcept_dis))
 		p = Pool(processes = self.thread)
 		result = [p.apply_async(i.coco_operation, args=()) for i in job]
 		p.close()

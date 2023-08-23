@@ -24,11 +24,13 @@ class AttributeCollection:
 	as_site: list = None
 	apa_site: list = None
 	name: str = None
+	reference_id: list =None
 	rss_dis: int = math.inf
 	read_tag: str = None
 	processed: bool = False
 	chrand_ID: int = None
 	loci_ID: int = None
+	
 
 # %% ../05_refine.ipynb 4
 class SingleExonReadRefine:
@@ -53,7 +55,7 @@ class SingleExonReadRefine:
 					for ref_exon in overlap_ref:
 						overlap = list(set(range(position[subread[0]], position[subread[1]]+1)).intersection(range(ref_exon[0],ref_exon[1]+1)))
 						overlap.sort()
-						if (overlap[-1] - overlap[0] + 1)/(ref_exon[-1] - ref_exon[0] + 1) >= 0.5:
+						if (overlap[-1] - overlap[0] + 1)/(ref_exon[1] - ref_exon[0] + 1) >= 0.5:
 							subread_attribute.processed = True
 							subread_attribute.read_tag = 'Keep_ref'
 							break
@@ -227,6 +229,7 @@ class MultiExonReadRefine():
 		refine_log = defaultdict(dict)
 		for corrected_read_splicing, read_info in self.chrand_processed_collected_multi_exon_read.items():
 			read_attribute = AttributeCollection(*read_info)
+			# print(read_info)
 			trans_structure_pool = self.chrand_ref_mutple_exon_trans
 
 			# calculate the distance between TSS of the collapsed read and nearest reference TSS

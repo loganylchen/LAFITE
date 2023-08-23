@@ -13,7 +13,7 @@ def temp_dir_creation(output_dir):
 	TemporaryDirectory creation under output directory
 	"""
 	tmp_folder = tempfile.TemporaryDirectory(dir=output_dir)
-
+	print(tmp_folder)
 	return tmp_folder
 
 # %% ../00_utils.ipynb 4

@@ -68,7 +68,8 @@ class OutputAssembly:
 
 					isoform_idx = 0
 					for index, row in tmp.iterrows():
-						full_block, start, end, count, polya_count, fsm, polyaed, as_site, apa_site, collasped_name, rss_dis, read_tag, processed, chrand_ID, abundance  = list(row)
+						print(row)
+						full_block, start, end, count, polya_count, fsm, polyaed, as_site, apa_site, collasped_name,ref_id, rss_dis, read_tag,  processed, chrand_ID,abundance  = list(row)
 						if as_site:
 							as_site = ','.join([str(x) for x in as_site])
 							apa_site = ','.join([str(x) for x in apa_site])
@@ -76,7 +77,14 @@ class OutputAssembly:
 							as_site = str(start)
 							apa_site = str(end)
 						isoform_idx += 1
+						if ref_id is not None:
+							reference_id = '|'.join([i for i in ref_id if i is not None])
+						else:
+							reference_id = ''
+						
 						attribute = f'gene_id "{self.label}.{loci}"; transcript_id "{self.label}.{loci}.{isoform_idx}"; distance_to_nearset_TSS "{rss_dis}"; full_length_count "{count}"; full_length_PolyA_count "{polya_count}"; alternative_TSS "{as_site}"; alternative_TES "{apa_site}"; isoform_class "{read_tag}";'
+						if reference_id != '':
+							attribute += f' reference_id "{reference_id}";'
 						isoform_info = [chrom, 'LAFITE', 'transcript', str(full_block[0]), str(full_block[-1]), '.', strand, '.', attribute]
 						fw.write('\t'.join(isoform_info)+'\n')
 
