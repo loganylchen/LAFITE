@@ -93,7 +93,7 @@ def polya_signal_import(polyadenylation_event):
     if polyadenylation_event:
         if polyadenylation_event.endswith('.gz'):
             OPEN = gzip.open
-            mode = 'rb'
+            mode = 'rt'
         else:
             OPEN = open
             mode = 'r'
