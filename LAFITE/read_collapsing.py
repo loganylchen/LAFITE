@@ -296,7 +296,7 @@ class ReadCorrectionColappse:
 
         return self.chrom, self.strand, single_exon_read, multi_exon_read, corrected_read, correction_log, rss_dis_lst, res_dis_lst
 
-# %% ../03_collapsing.ipynb 7
+# %% ../03_collapsing.ipynb 5
 class CoCoWrapper:
     def __init__(self, thread, processed_read, ref_exon, ref_junction, ref_single_exon_trans, ref_mutple_exon_trans, left_sj_set, right_sj_set, junction_dict, sj_correction_window, polya_dict, mis_intron_length, tmp_dir, corExcept_dis=0):
         self.thread = thread
@@ -367,7 +367,7 @@ class CoCoWrapper:
                     fbed.write(f'{bed_block}\n')
         return collected_single_exon_read, collected_multi_exon_read, collected_rss, collected_res
 
-# %% ../03_collapsing.ipynb 15
+# %% ../03_collapsing.ipynb 6
 def splicing_to_bed_block(chrom, strand, name, full_block):
     start, end = full_block[0], full_block[-1]
     full_block = iter(full_block)

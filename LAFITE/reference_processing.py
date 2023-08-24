@@ -21,7 +21,7 @@ def gtf_line_split(entry):
 
     return chrom, source, feature, start, end, score, strand, frame, attribute
 
-# %% ../01_reference_processing.ipynb 5
+# %% ../01_reference_processing.ipynb 4
 def gtf2splicing(gtf, transcript_ref='transcript_id', keepAttribute=False, no_transcript=False):
     """
     preprocess the gtf file to gene and isoform level
@@ -66,7 +66,7 @@ def gtf2splicing(gtf, transcript_ref='transcript_id', keepAttribute=False, no_tr
 
     return isoform_structure_dict
 
-# %% ../01_reference_processing.ipynb 7
+# %% ../01_reference_processing.ipynb 5
 class RefAnnotationExtraction:
     """
     extraction the splicing/exon information from the reference annotation
@@ -148,7 +148,7 @@ class RefAnnotationExtraction:
 
         return self.chrom, self.strand, chrand_ref_exon, chrand_ref_junction, chrand_ref_single_exon_trans, chrand_ref_mutple_exon_trans, chrand_left_sj_set, chrand_right_sj_set, chrand_tss_dict
 
-# %% ../01_reference_processing.ipynb 8
+# %% ../01_reference_processing.ipynb 6
 class RefProcessWrapper:
     def __init__(self, ref_gtf, thread):
         self.ref_gtf = ref_gtf
@@ -201,7 +201,7 @@ class RefProcessWrapper:
 
         return ref_exon, ref_junction, ref_single_exon_trans, ref_mutple_exon_trans, left_sj_set, right_sj_set, tss_dict
 
-# %% ../01_reference_processing.ipynb 9
+# %% ../01_reference_processing.ipynb 7
 def short_reads_sj_import(sj_tab, left_sj_set, right_sj_set):
     """import the splicing junctions detected from short reads data (STAR SJ_tab)
     """
@@ -226,7 +226,7 @@ def short_reads_sj_import(sj_tab, left_sj_set, right_sj_set):
 
     return left_sj_set, right_sj_set
 
-# %% ../01_reference_processing.ipynb 10
+# %% ../01_reference_processing.ipynb 8
 def cage_tss_import(cage_tss, tss_dict):
     """import the splicing junctions detected from short reads data (STAR SJ_tab)
     """
@@ -244,7 +244,7 @@ def cage_tss_import(cage_tss, tss_dict):
 
     return tss_dict
 
-# %% ../01_reference_processing.ipynb 11
+# %% ../01_reference_processing.ipynb 9
 def annotation_reshape(isoform_structure_dict):
     reshaped_multi_exon_isoform_dict = Vividict()
     reshaped_single_exon_isoform_dict = Vividict()
@@ -272,7 +272,7 @@ def annotation_reshape(isoform_structure_dict):
         single_exon_isoform_interlap[i].update(t)
     return reshaped_multi_exon_isoform_dict, reshaped_single_exon_isoform_dict, single_exon_isoform_interlap
 
-# %% ../01_reference_processing.ipynb 12
+# %% ../01_reference_processing.ipynb 10
 def split_bed_line(bed_line, extends=False):
     """
     split bed line
@@ -299,7 +299,7 @@ def split_bed_line(bed_line, extends=False):
             return chrom, start, end, name, score, strand, thick_start, thick_end, item_rgb, block_count, block_sizes, block_starts, others
     return chrom, start, end, name, score, strand, thick_start, thick_end, item_rgb, block_count, block_sizes, block_starts
 
-# %% ../01_reference_processing.ipynb 13
+# %% ../01_reference_processing.ipynb 11
 def bed_block_to_splicing(start, block_count, block_starts, block_sizes):
     read_splicing = []
     if block_count > 1:
@@ -309,7 +309,7 @@ def bed_block_to_splicing(start, block_count, block_starts, block_sizes):
             read_splicing.extend([left_sj, right_sj])
     return read_splicing
 
-# %% ../01_reference_processing.ipynb 14
+# %% ../01_reference_processing.ipynb 12
 def read_assignment(bed, reshaped_multi_exon_isoform_dict, reshaped_single_exon_isoform_dict, single_exon_isoform_interlap, only_known=True, ratio=0.8):
     cp_read_dict = defaultdict(list)
     with open(bed) as f:

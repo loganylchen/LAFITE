@@ -83,7 +83,7 @@ def read_grouping(bed_file, fasta):
 
     return junction_dict, processed_read
 
-# %% ../02_preprocessing.ipynb 7
+# %% ../02_preprocessing.ipynb 6
 def polya_signal_import(polyadenylation_event):
     """
     read the polyA information from nanopolish-polya mode
@@ -101,7 +101,7 @@ def polya_signal_import(polyadenylation_event):
                     polya_reads[f'{int(line[2])+1}_{line[0]}'] = True
     return polya_reads
 
-# %% ../02_preprocessing.ipynb 8
+# %% ../02_preprocessing.ipynb 7
 class PolyAFinder():
     """estimate read polyadenylation event by checking the polya motifs from sequence
     """

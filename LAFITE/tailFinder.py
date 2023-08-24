@@ -15,7 +15,7 @@ from sklearn.metrics import silhouette_score
 from sklearn.mixture import GaussianMixture
 from .utils import Vividict
 
-# %% ../04_tailfinder.ipynb 5
+# %% ../04_tailfinder.ipynb 3
 class AlternativeTerminalFinder:
     def __init__(self, chrom, strand, corrected_read_splicing, read_info, min_count_tss_tes, max_sil=0):
 
@@ -194,7 +194,7 @@ class AlternativeTerminalFinder:
                     outlist.extend([end, apa_site, polya_tag])
         return outlist
 
-# %% ../04_tailfinder.ipynb 6
+# %% ../04_tailfinder.ipynb 4
 class TailFinderWrapper:
     def __init__(self, collected_multi_exon_read, min_count_tss_tes, thread):
         self.collected_multi_exon_read = collected_multi_exon_read
