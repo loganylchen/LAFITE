@@ -13,7 +13,7 @@ import pickle
 from numpy import percentile
 from time import strftime
 
-from .reference_processing import RefProcessWrapper, short_reads_sj_import, cage_tss_import, annotation_reshape, gtf2splicing, split_bed_line, bed_block_to_splicing, read_assignment
+from .reference_processing import RefProcessWrapper, short_reads_sj_import, cage_tss_import, annotation_reshape, gtf2splicing,  read_assignment
 from .preprocessing import read_grouping, polya_signal_import, PolyAFinder
 from .utils import temp_dir_creation, bam2bed, keep_tmp_file
 from .read_collapsing import CoCoWrapper
